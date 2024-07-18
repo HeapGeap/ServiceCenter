@@ -1,0 +1,108 @@
+@startuml
+class TablePanelUI {
++ JTable dataTable
++ JTextField searchField
++ JButton findBtn
++ JButton addBtn
++ JPanel contentPane
+}
+class DataTableModel {
+- ArrayList<String> columnNames
+- ArrayList<String> columnTypes
+- int columnCount
+- String tableName
+- DataManager dm
+- ArrayList<String[]> data
++ int getRowCount()
++ int getColumnCount()
++ Object getValueAt(int,int)
++ Class<?> getColumnClass(int)
++ String getColumnName(int)
++ String getColumnType(int)
++ String getTableName()
++ ArrayList<String[]> getData()
++ void setData(ArrayList<String[]>)
++ void refresh()
+}
+class ComboItem {
+- String key
+- String value
++ String toString()
++ String getValue()
+}
+class DatabaseUI {
+- JPanel contentPane
+- JSplitPane splitPane
+- JTabbedPane tabbedPane
+- JScrollPane infoScrollPane
+- JLabel usernameLabel
+- JButton exitBtn
+- JButton backBtn
+- JButton uploadBtn
+- JButton downloadBtn
+- DateTimePicker dtPicker
+- int lastModified
+~ ImageIcon icon1
+~ ImageIcon icon2
+~ ImageIcon icon3
+~ ImageIcon icon4
+- JFrame getFrame()
+}
+class DataManager {
+# Connection connection
++ ArrayList<String> getTableNames()
++ boolean hasPrivilege(String,String)
+- {static} ArrayList<T> removeDuplicates(ArrayList<T>)
++ int getColumnCount(String)
++ ArrayList<String> getTableRowNames(String)
++ ArrayList<String> getTableRowTypes(String)
++ void insertInto(String,String,String)
++ boolean isView(String)
++ void update(String,String,String,String)
++ void deleteFrom(String,String)
++ ArrayList<String[]> getData(String)
++ ArrayList<String[]> getSortedData(String)
++ {static} boolean exportDatabase(String,boolean)
++ {static} boolean importDatabase(String,boolean)
++ {static} File getLastModified(String)
+}
+class Main {
++ {static} void main(String[])
+}
+class InfoPanelUI {
+- DataManager dm
+- DataTableModel dtm
+- ArrayList<Component> components
++ JButton saveBtn
+- void addFieldNameLabel(String,int)
+- Component addComponent(String,int)
+- String getDataFromComponent(Component)
+- String formattedValue(JFormattedTextField)
+- void setDataToComponent(Component,String,int)
++ void showData(int)
++ void clearAllFields()
++ void insert(String,DataManager)
++ void update(String,DataManager)
+}
+class LauncherUI {
+- JPanel contentPane
+- JButton buttonOK
+- JButton buttonCancel
+- JTextField usernameField
+- JPasswordField passwordField
+- JLabel errorLabel
+- void onOK()
+- void onCancel()
+}
+
+
+javax.swing.table.AbstractTableModel <|-- DataTableModel
+JFrame <|-- DatabaseUI
+JPanel <|-- InfoPanelUI
+JDialog <|-- LauncherUI
+Main <|-- DataManager
+DataManager *-- DatabaseUI
+Main <|.. ComboItem
+JFrame <.. JPanel
+LauncherUI <|.. JFrame
+@enduml
